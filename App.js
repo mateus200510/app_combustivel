@@ -1,5 +1,7 @@
 import { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from "react-native";
+import { View, Text, TextInput, StyleSheet, Image } from "react-native";
+import Button from "./src/componentes/Button";
+import ResultCard from "./src/componentes/ResultCard";
 
 export default function App() {
   const [etanol, setEtanol] = useState("");
@@ -31,13 +33,6 @@ export default function App() {
         tipo: "gasolina",
       });
     }
-  }
-
-  function getResultadoStyle() {
-    if (!resultado) return {};
-    if (resultado.tipo === "etanol") return styles.cardEtanol;
-    if (resultado.tipo === "gasolina") return styles.cardGasolina;
-    return styles.cardErro;
   }
 
   return (
@@ -75,23 +70,9 @@ export default function App() {
           placeholderTextColor="#aaa"
         />
 
-        <TouchableOpacity style={styles.botao} onPress={verificar}>
-          <Text style={styles.botaoTexto}>VERIFICAR VANTAGEM</Text>
-        </TouchableOpacity>
+        <Button texto="VERIFICAR VANTAGEM" onPress={verificar} />
 
-        {resultado && (
-          <View style={[styles.resultCard, getResultadoStyle()]}>
-            <Text style={styles.resultadoEmoji}>
-              {resultado.tipo === "etanol"
-                ? "🌿"
-                : resultado.tipo === "gasolina"
-                ? "⛽"
-                : "⚠️"}
-            </Text>
-
-            <Text style={styles.resultadoTexto}>{resultado.mensagem}</Text>
-          </View>
-        )}
+        <ResultCard resultado={resultado} />
       </View>
     </View>
   );
@@ -154,50 +135,5 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     color: "#1a1a1a",
     backgroundColor: "#fafafa",
-  },
-  botao: {
-    backgroundColor: "#009640",
-    borderRadius: 10,
-    padding: 14,
-    alignItems: "center",
-    marginTop: 4,
-  },
-  botaoTexto: {
-    color: "white",
-    fontWeight: "bold",
-    fontSize: 15,
-    letterSpacing: 1,
-  },
-  resultCard: {
-    marginTop: 20,
-    borderRadius: 12,
-    padding: 16,
-    alignItems: "center",
-  },
-  cardEtanol: {
-    backgroundColor: "#e8f5e9",
-    borderWidth: 1,
-    borderColor: "#a5d6a7",
-  },
-  cardGasolina: {
-    backgroundColor: "#e3f2fd",
-    borderWidth: 1,
-    borderColor: "#90caf9",
-  },
-  cardErro: {
-    backgroundColor: "#fff3e0",
-    borderWidth: 1,
-    borderColor: "#ffcc80",
-  },
-  resultadoEmoji: {
-    fontSize: 30,
-    marginBottom: 8,
-  },
-  resultadoTexto: {
-    fontSize: 14,
-    color: "#333",
-    textAlign: "center",
-    lineHeight: 20,
-    fontWeight: "500",
   },
 });
